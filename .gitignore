@@ -1,0 +1,32 @@
+git add .gitignore
+git commit -m "Updated .gitignore to exclude unnecessary files"
+git push origin main
+# Virtual environment
+myenv/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Database files
+instance/site.db
+
+# Environment variables (if applicable)
+.env
+
+# Certificate files (ensure this isn't critical for the repo)
+cacert.pem
+
+# Logs & unnecessary files
+*.log
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# IDE/editor settings
+.vscode/
+.idea/
+
+# Other specific files (if needed)
+some_random_info.png  # Ignore if this file isn't necessary for the repo

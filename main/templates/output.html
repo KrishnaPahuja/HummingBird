@@ -1,0 +1,74 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+
+
+<article class="media content-section">
+    <div class="media-body">
+        <div class="article-metadata">
+            <video class="img-fluid" autoplay loop>
+                <source src="{{ url_for('static', filename='output/'+song_name+'_output.mov') }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+</article>
+
+<style>
+    .image-grid {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .image-column {
+        flex: 1;
+        margin: 5px;
+        /* Adjust margin as needed */
+        position: relative;
+    }
+
+    .image-column img {
+        width: 100%;
+        height: auto;
+        display: block;
+        transition: transform 0.3s ease;
+        /* Add transition effect */
+    }
+
+    .image-column img:hover {
+        transform: scale(1.1);
+        /* Scale up the image on hover */
+    }
+</style>
+
+<article class="media content-section">
+    <div class="media-body">
+        <div class="article-metadata">
+        
+            <h2>Maybe You Were Looking For...</h2>
+
+        </div>
+        <div class="image-grid">
+            <!-- <div class="image-column">
+                <img src="{{ url_for('static', filename='similar_songs/CruelSummer.png') }}" alt="Image 1">
+            </div>
+            <div class="image-column">
+                <img src="{{ url_for('static', filename='similar_songs/YouBelongWithMe.png') }}" alt="Image 2">
+            </div>
+            <div class="image-column">
+                <img src="{{ url_for('static', filename='similar_songs/Enchanted.png') }}" alt="Image 3">
+            </div> -->
+
+
+            {% for song_name in similar_songs %}
+            <div class="image-column">
+                <img src="{{ url_for('static', filename='similar_songs/'+song_name+'.png') }}" alt="Image 4">
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</article>
+
+
+{% endblock content %}

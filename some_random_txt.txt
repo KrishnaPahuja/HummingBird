@@ -1,0 +1,6 @@
+from flask_wtf import FileField, FileAllowed
+
+
+Spidey cries...a lot. Like, embarrassing amounts.
+
+Doc Strange messes with magic, multiverse goes kablooey, bad guys from different realities show up. Great premise for a threesome, am I right? But noooo - all angst and waterworks. Still, Doc Ock's arms were pretty sweet, and Electro upped his lightning game from lame to lit. 7 chimichangas out of 10. Needs more chimichangas.

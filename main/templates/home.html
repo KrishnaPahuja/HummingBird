@@ -1,0 +1,281 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<!-- <title>Audio Recorder</title> -->
+<!-- home page audio rec from broser -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<!-- <link rel="stylesheet" href="homemain.css"> -->
+
+
+<style>
+.homemain {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  height: calc(100vh - 23rem);
+}
+
+.homebtn {
+  appearance: none;
+  border: none;
+  outline: none;
+  background: none;
+  cursor: pointer;
+}
+
+.mic-toggle {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 8rem;
+  height: 8rem;
+  border-radius: 50%;
+  margin: 0 auto;
+  margin-bottom: 4rem;
+}
+
+.mic-toggle::before,
+.mic-toggle::after {
+  --pad: 0.5rem;
+  content: "";
+  display: block;
+  position: absolute;
+  z-index: -1;
+  background-color: transparent;
+  top: var(--pad);
+  left: var(--pad);
+  right: var(--pad);
+  bottom: var(--pad);
+  border-radius: 50%;
+  transition: 0.2s;
+}
+
+.mic-toggle:hover::before,
+.mic-toggle:hover::after {
+  --pad: -2rem;
+  background-color: rgba(255, 0, 0, 0.5);
+}
+
+.mic-toggle span {
+  position: relative;
+  z-index: 1;
+  color: #fff;
+  font-size: 6rem;
+}
+
+.mic-toggle.is-recording::before {
+  animation: smoothPadBefore 0.6s ease-in alternate-reverse forwards infinite;
+}
+
+.mic-toggle.is-recording::after {
+  animation: smoothPadAfter 0.6s ease-in alternate-reverse forwards infinite;
+}
+
+.mic-toggle:focus {
+  outline: none;
+}
+
+.mic-toggle.glow {
+  animation: breathingGlow 5s ease-in-out infinite alternate;
+  box-shadow: 0 0 150px rgba(255, 0, 0, 0.3);
+}
+
+@keyframes breathingGlow {
+  0% {
+    box-shadow: 0 0 150px rgb(255, 0, 0);
+  }
+  100% {
+    box-shadow: 0 0 160px rgba(255, 0, 0, 0.989);
+  }
+}
+
+@keyframes smoothPadAfter {
+  0% {
+    top: -2rem;
+    left: -2rem;
+    right: -2rem;
+    bottom: -2rem;
+  }
+  100% {
+    top: -1rem;
+    left: -1rem;
+    right: -1rem;
+    bottom: -1rem;
+  }
+}
+
+@keyframes smoothPadBefore {
+  0% {
+    top: -1rem;
+    left: -1rem;
+    right: -1rem;
+    bottom: -1rem;
+  }
+  100% {
+    top: -0.5rem;
+    left: -0.5rem;
+    right: -0.5rem;
+    bottom: -0.5rem;
+  }
+}
+
+.playback {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
+  border-radius: 999px;
+}
+
+.is-hidden {
+  display: none;
+}
+
+.video-background {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  transform: rotate(90deg) scale(3);
+  filter: brightness(125%);
+}
+
+.mic-toggle.is-recording {
+  animation: oscillate 0.5s ease-in-out infinite alternate;
+}.mic-toggle.is-playing {
+  animation: oscillate 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes oscillate {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-10px);
+  }
+}
+
+.home-heading {
+    margin-left: 5rem;
+    margin-top: 3rem;
+    font-family: sans-serif;
+    font-weight: bold;
+    font-style: italic;
+}
+
+.sub-heading {
+    margin-left: 13rem;
+    margin-top: 0rem;
+    font-family: sans-serif;
+    font-weight: bold;
+    font-style: italic;
+}
+
+
+
+/* upload file form styling */
+
+.upload-container {
+  display: flex;
+  flex-direction: column; /* Ensure items are stacked vertically */
+  align-items: center;
+}
+
+.upload-form {
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  align-items: center;
+  margin-top: 20px;
+}
+
+.upload-form .file-input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.submit-buttons-container {
+  display: flex; /* Display buttons in the same line */
+}
+
+.submit-btn {
+  font-family: sans-serif;
+  font-weight: 500;
+  font-size: 17px;
+  padding: 0.8em 1.5em 0.8em 1.2em;
+  color: white;
+  background: #ad5389;
+  background: linear-gradient(0deg, rgb(208, 59, 54) 0%, rgb(208, 59, 54) 100%);
+  border: none;
+  box-shadow: 0 0.7em 1.5em -0.5em #d03636be;
+  letter-spacing: 0.05em;
+  border-radius: 20em;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.submit-btn:hover {
+  box-shadow: 0 0.5em 1.5em -0.5em #d03636be;
+}
+
+.submit-btn:active {
+  box-shadow: 0 0.3em 1em -0.5em #d03636be;
+}
+
+
+
+</style>
+
+<div class="homediv">
+  <video class="video-background" autoplay loop muted>
+    <source src="{{ url_for('static', filename='videos/dotted_bg.mp4') }}" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <div style="padding-bottom: 30px;">
+    <h1 class="home-heading">Hum Your Tune Know Your Song</h1>
+    <h2 class="sub-heading">Click to HummingBird</h2>
+  </div>
+  
+  
+  <main class="homemain">
+    <button class="mic-toggle" id="mic">
+      <img src="{{ url_for('static', filename='red_twitter2.png') }}" alt="Your Image" width="300px">
+    </button>
+  
+      <div>
+      <audio class="playback" controls></audio>
+      </div>      
+
+      <div class="upload-container">
+        <form class="upload-form" action=" {{ url_for('humming_bird_main') }} " method="post" enctype="multipart/form-data">
+          <!-- <input class="file-input" type="file" id="formFile" name="file"> -->
+          <div class="mb-3">
+            <input class="form-control" type="file" id="formFile" name="file">
+          </div>
+          
+          <div class="submit-buttons-container">
+            <button type="button" class="submit-btn preview">Preview File</button>
+            <button type="submit" class="submit-btn">Search</button>
+          </div>
+        </form>
+      </div>
+      
+      
+      
+  </main>
+</div>
+<script src="{{ url_for('static', filename='homemain.js') }}"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+
+
+{% endblock content %}
